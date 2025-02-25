@@ -13,6 +13,35 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+}
+
+.login-btn, .back-btn {
+  margin: 10px;
+  font-size: 16px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background-color: #1a1a1a;
+  color: white;
+  transition: border-color 0.25s;
+}
+
+.login-btn:hover, .back-btn:hover {
+  border-color: #646cff;
+}
+
 a {
   font-weight: 500;
   color: #646cff;
