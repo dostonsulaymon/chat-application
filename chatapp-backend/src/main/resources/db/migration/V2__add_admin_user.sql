@@ -30,12 +30,16 @@ INSERT INTO users (
     phone_number,
     password_hash,
     profile_picture_id,
-    status,
+    connection_status,
+    account_status,
+    user_role,
     created_at,
     updated_at,
     last_login,
     account_locked,
-    is_deleted
+    account_locked_until,
+    is_deleted,
+    deleted_at
 ) VALUES (
              'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', -- predefined UUID for admin
              'admin',
@@ -44,11 +48,15 @@ INSERT INTO users (
              '$2a$10$rM7lSK5VgN7CRGRs7VNZge9MjI5FdR8F9IzjOu.lK6QjOQHXRDyRK', -- bcrypt hash for 'admin123'
              'default-admin-profile-pic',
              'OFFLINE',
+             'ACTIVE', -- Assuming ACTIVE is a valid GeneralStatus enum value
+             'ADMIN_ROLE', -- Assuming ADMIN is a valid UserRole enum value
              CURRENT_TIMESTAMP,
              CURRENT_TIMESTAMP,
              NULL, -- hasn't logged in yet
              FALSE, -- not locked
-             FALSE  -- not deleted
+             NULL, -- account not locked until any specific time
+             FALSE, -- not deleted
+             NULL -- not deleted yet
          );
 
 -- Create a 'System' conversation for announcements
@@ -74,13 +82,15 @@ INSERT INTO conversation_members (
     conversation_id,
     user_id,
     role,
-    joined_at
+    joined_at,
+    left_at
 ) VALUES (
              gen_random_uuid(),
              'b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', -- system conversation
              'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', -- admin user
-             'OWNER',
-             CURRENT_TIMESTAMP
+             'OWNER', -- Assuming OWNER is a valid UserRole enum value
+             CURRENT_TIMESTAMP,
+             NULL -- admin has not left the conversation
          );
 
 -- Add a welcome message

@@ -1,11 +1,12 @@
-package dasturlash.uz.dto;
+package dasturlash.uz.dto.response;
 
-import java.util.List;
+import dasturlash.uz.enums.UserRole;
+
 
 public record JwtResponseDTO(
         String token,
         String refreshToken,
         String login,
-        List<String> roles
+        UserRole role
 ) {
 }

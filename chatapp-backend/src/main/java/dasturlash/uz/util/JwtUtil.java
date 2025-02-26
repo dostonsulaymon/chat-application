@@ -1,6 +1,7 @@
 package dasturlash.uz.util;
 
 import dasturlash.uz.dto.JwtDTO;
+import dasturlash.uz.enums.UserRole;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Component;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Component
@@ -25,17 +25,17 @@ public class JwtUtil {
     @Value("${jwt.secret-key}")
     private String secretKey;
 
-    public String encode(String login, List<String> roles) {
-        return getString(login, roles, tokenLiveTime);
+    public String encode(String login, UserRole role) {
+        return getString(login, role, tokenLiveTime);
     }
 
-    public String refreshToken(String login, List<String> roles) {
-        return getString(login, roles, refreshTokenLiveTime);
+    public String refreshToken(String login, UserRole role) {
+        return getString(login, role, refreshTokenLiveTime);
     }
 
-    private String getString(String login, List<String> roles, long tokenLiveTime) {
+    private String getString(String login, UserRole role, long tokenLiveTime) {
         Map<String, Object> extraClaims = new HashMap<>();
-        extraClaims.put("roles", roles); // Change "role" to "roles"
+        extraClaims.put("role", role.name()); // Store role as a string
         extraClaims.put("login", login);
 
         return Jwts
@@ -83,9 +83,9 @@ public class JwtUtil {
                 .parseClaimsJws(token)
                 .getBody();
         String login = (String) claims.get("login");
-        List<String> roles = (List<String>) claims.get("roles"); // Change "role" to "roles"
+        UserRole role = UserRole.valueOf((String) claims.get("role"));
 
-        return new JwtDTO(login, roles);
+        return new JwtDTO(login, role);
     }
 
     private Key getSignInKey() {

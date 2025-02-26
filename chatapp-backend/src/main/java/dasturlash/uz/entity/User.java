@@ -1,8 +1,11 @@
 package dasturlash.uz.entity;
 
+import dasturlash.uz.enums.GeneralStatus;
+import dasturlash.uz.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -35,8 +38,12 @@ public class User {
     @JoinColumn(name = "profile_picture_id")
     private Attach profilePicture;
 
-    @Column(nullable = false, length = 20)
-    private String status = "OFFLINE";
+    @Column(name = "connection_status", nullable = false, length = 20)
+    private String connectionStatus = "OFFLINE";
+
+    @Column(name = "account_status")
+    @Enumerated(EnumType.STRING)
+    private GeneralStatus accountStatus;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
@@ -64,6 +71,10 @@ public class User {
 
     @Column(name = "oauth_id", length = 100)
     private String oauthId;
+
+    @Column(name = "user_role")
+    @Enumerated(EnumType.STRING)
+    private UserRole userRole;
 
     // Enforcing email or phone number must be provided
     @PrePersist

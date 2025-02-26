@@ -1,11 +1,11 @@
 package dasturlash.uz.entity;
 
 
-
 import dasturlash.uz.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -28,7 +28,7 @@ public class ConversationMember {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private UserRole role = UserRole.MEMBER;
+    private UserRole role = UserRole.MEMBER_ROLE;
 
     @Column(name = "joined_at", nullable = false)
     private LocalDateTime joinedAt;

@@ -20,13 +20,15 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(authorizeRequests ->
-                        authorizeRequests
-                                .requestMatchers("/api/auth/**").permitAll()
-                                .anyRequest().authenticated()
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/auth/**").permitAll()  // Allow your JWT login endpoint
+                        .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
+                        .anyRequest().authenticated()
                 )
-                .oauth2Login(oauth2Login ->
-                        oauth2Login.defaultSuccessUrl("http://localhost:3000/dashboard", true));
+                .formLogin(form -> form.disable())  // Disable form-based login
+                .oauth2Login(oauth2 -> oauth2
+                        .defaultSuccessUrl("http://localhost:3000/dashboard", true)
+                );
 
         return http.build();
     }

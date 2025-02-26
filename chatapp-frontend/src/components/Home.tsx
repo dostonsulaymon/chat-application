@@ -1,6 +1,7 @@
 import React from "react";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Home: React.FC = () => {
     const handleLogin = (provider: "google" | "github" | "custom") => {
@@ -21,6 +22,7 @@ const Home: React.FC = () => {
             <button onClick={() => handleLogin("github")} className="login-btn">
                 <FaGithub /> Login with GitHub
             </button>
+            <Link to="/login" className="login-btn">Custom Login</Link>
         </div>
     );
 };
