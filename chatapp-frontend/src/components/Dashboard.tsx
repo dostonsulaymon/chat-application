@@ -8,7 +8,7 @@ const Dashboard: React.FC = () => {
             <p>This is your secured area.</p>
             <Link to="/" className="back-btn">Go Back</Link>
         </div>
-    ); 
+    );
 };
 
 export default Dashboard;
