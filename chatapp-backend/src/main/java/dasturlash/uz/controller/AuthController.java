@@ -1,6 +1,8 @@
 package dasturlash.uz.controller;
 
+import dasturlash.uz.dto.request.LoginByBotDTO;
 import dasturlash.uz.dto.request.LoginDTO;
+import dasturlash.uz.dto.request.RegistrationDTO;
 import dasturlash.uz.dto.response.JwtResponseDTO;
 import dasturlash.uz.dto.response.LoginResponseDTO;
 import dasturlash.uz.service.AuthService;
@@ -32,12 +34,21 @@ public class AuthController {
         return ResponseEntity.ok(new LoginResponseDTO(message, jwtResponse));
     }
 
+    @PostMapping("/verify")
+    public ResponseEntity<JwtResponseDTO> loginByBot(@RequestBody LoginByBotDTO requestDTO) {
+        return ResponseEntity.ok(authService.loginByBot(requestDTO.code()));
+    }
     @PostMapping("/logout")
     public ResponseEntity<Void> logout(HttpServletRequest request) {
         String token = request.getHeader("Authorization").substring(7);
         tokenBlacklistService.blacklistToken(token); // Add token to blacklist
         log.info("Logged out of token: {}", token);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/registration")
+    public ResponseEntity<JwtResponseDTO> registrationViaEmail(@RequestBody @Valid RegistrationDTO requestDTO) {
+        return ResponseEntity.ok(authService.register(requestDTO));
     }
 
     @PostMapping("/refresh")
