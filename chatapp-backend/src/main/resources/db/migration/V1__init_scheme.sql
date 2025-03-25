@@ -14,7 +14,7 @@ CREATE TABLE attaches (
 -- Users table
 CREATE TABLE users (
                        user_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-                       username VARCHAR(50) UNIQUE NOT NULL,
+                       username VARCHAR(50) UNIQUE,
                        email VARCHAR(100) UNIQUE,
                        phone_number VARCHAR(20) UNIQUE,
                        password_hash VARCHAR(255),

@@ -47,7 +47,7 @@ public class AuthController {
     }
 
     @PostMapping("/registration")
-    public ResponseEntity<JwtResponseDTO> registrationViaEmail(@RequestBody @Valid RegistrationDTO requestDTO) {
+    public ResponseEntity<String> registrationViaEmail(@RequestBody @Valid RegistrationDTO requestDTO) {
         return ResponseEntity.ok(authService.register(requestDTO));
     }
 
